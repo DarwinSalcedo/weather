@@ -6,7 +6,7 @@ data class WeatherModel(
     val temperatureModel: TemperatureModel,
     val conditionDescription: String,
     val humidityPercentage: Int,
-    val windSpeed: Int,
+    val windSpeed: Double,
     val iconUrl: String
 )
 

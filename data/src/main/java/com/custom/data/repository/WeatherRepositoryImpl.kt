@@ -1,0 +1,23 @@
+package com.custom.data.repository
+
+import com.custom.core.model.WeatherModel
+import com.custom.core.repository.WeatherRepository
+import com.custom.data.mapper.toDomainModel
+import com.custom.data.remote.WeatherApi
+import javax.inject.Inject
+
+class WeatherRepositoryImpl @Inject constructor(private val api: WeatherApi) : WeatherRepository {
+
+    override suspend fun getCurrentWeatherByCity(city: String): Result<WeatherModel> {
+        return try {
+
+            val dto = api.getCurrentWeather(city)
+            val domainModel = dto.toDomainModel()
+            Result.success(domainModel)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Result.failure(e)
+        }
+    }
+}
