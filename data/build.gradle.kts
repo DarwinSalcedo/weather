@@ -56,6 +56,7 @@ dependencies {
     api(project(":core"))
 
     implementation(libs.hilt.android)
+    implementation(libs.play.services.location)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.common)
     implementation(libs.hilt.navigation.compose)

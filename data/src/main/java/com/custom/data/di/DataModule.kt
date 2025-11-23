@@ -1,13 +1,18 @@
 package com.custom.data.di
 
+import android.app.Application
 import com.custom.core.repository.CitySearchRepository
+import com.custom.core.repository.LocationRepository
 import com.custom.core.repository.WeatherRepository
 import com.custom.data.BuildConfig
 import com.custom.data.remote.AuthInterceptor
 import com.custom.data.remote.GeoApi
 import com.custom.data.remote.WeatherApi
 import com.custom.data.repository.CitySearchRepositoryImpl
+import com.custom.data.repository.LocationRepositoryImpl
 import com.custom.data.repository.WeatherRepositoryImpl
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -73,5 +78,21 @@ object DataModule {
     ): CitySearchRepository {
         return CitySearchRepositoryImpl(apiService)
     }
+
+    @Provides
+    @Singleton
+    fun provideFusedLocationProviderClient(app: Application): FusedLocationProviderClient {
+        return LocationServices.getFusedLocationProviderClient(app)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocationRepository(
+        app: Application,
+        fusedLocationProviderClient: FusedLocationProviderClient
+    ): LocationRepository {
+        return LocationRepositoryImpl(app, fusedLocationProviderClient)
+    }
+
 
 }
