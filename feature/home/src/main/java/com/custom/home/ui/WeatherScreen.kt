@@ -131,7 +131,7 @@ fun WeatherScreen(
                 searchState = searchState,
                 onQueryChanged = viewModel::onSearchQueryChanged,
                 onCitySelected = { city ->
-                    viewModel.fetchWeatherByCity(city.name)
+                    viewModel.fetchWeatherByCoordinates(city.latitude,city.longitude)
                     viewModel.clearSearch()
                 },
                 onClose = viewModel::clearSearch

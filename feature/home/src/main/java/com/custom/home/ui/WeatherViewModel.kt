@@ -6,9 +6,9 @@ import com.custom.core.repository.LocationRepository
 import com.custom.home.domain.model.TemperatureUiModel
 import com.custom.home.domain.model.WeatherUiModel
 import com.custom.home.domain.usecase.GetCurrentWeatherByCoordinateUseCase
-import com.custom.home.domain.usecase.GetCurrentWeatherUseCase
 import com.custom.home.domain.usecase.SearchCitiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,12 +17,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-const val MINIMIMUM_CHARACTERS_TO_SEARCH = 3
+const val MINIMUM_CHARACTERS_TO_SEARCH = 3
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
     private val locationRepository: LocationRepository,
-    private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
     private val getCurrentWeatherByCoordinateUseCase: GetCurrentWeatherByCoordinateUseCase,
     private val searchCitiesUseCase: SearchCitiesUseCase
 ) : ViewModel() {
@@ -42,7 +41,7 @@ class WeatherViewModel @Inject constructor(
             _weatherState.update { WeatherState.LoadingLocation }
         }
 
-        viewModelScope.launch {
+        viewModelScope.launch((Dispatchers.IO)) {
             locationRepository.getLocationUpdates()
                 .collect { locationModel ->
                     fetchWeatherByCoordinates(locationModel.latitude, locationModel.longitude)
@@ -53,7 +52,7 @@ class WeatherViewModel @Inject constructor(
 
 
     fun fetchWeatherByCoordinates(latitude: Double, longitude: Double) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _weatherState.update { WeatherState.LoadingWeather }
 
             val result =
@@ -93,11 +92,10 @@ class WeatherViewModel @Inject constructor(
     }
 
 
-
     fun onSearchQueryChanged(query: String) {
         searchJob?.cancel()
 
-        if (query.isBlank() || query.length < MINIMIMUM_CHARACTERS_TO_SEARCH) {
+        if (query.isBlank() || query.length < MINIMUM_CHARACTERS_TO_SEARCH) {
             if (_searchState.value !is SearchState.Init) {
                 _searchState.update { SearchState.Results(emptyList()) }
             }
@@ -105,7 +103,7 @@ class WeatherViewModel @Inject constructor(
         }
 
         _searchState.update { SearchState.Searching }
-        searchJob = viewModelScope.launch {
+        searchJob = viewModelScope.launch(Dispatchers.IO) {
 
             val result = searchCitiesUseCase(query)
 
@@ -114,7 +112,9 @@ class WeatherViewModel @Inject constructor(
                     onSuccess = { citiesUiModel ->
                         SearchState.Results(citiesUiModel)
                     },
-                    onFailure = { e -> SearchState.Error("Error searching ${e.message}") }
+                    onFailure = { e ->
+                        SearchState.Error("Error searching ${e.message}")
+                    }
                 )
             }
         }
@@ -134,22 +134,6 @@ class WeatherViewModel @Inject constructor(
     fun setPermissionRequired() {
         _weatherState.update {
             WeatherState.LocationPermissionRequired
-        }
-    }
-
-    fun fetchWeatherByCity(city: String) {
-        viewModelScope.launch {
-            _weatherState.update { WeatherState.LoadingWeather }
-
-            val result = getCurrentWeatherUseCase(city)
-            _weatherState.update {
-                result.fold(
-                    onSuccess = { weatherUiModel ->
-                        WeatherState.Success(weatherUiModel)
-                    },
-                    onFailure = { e -> WeatherState.Error("Error loading the weather for $city: ${e.message}") }
-                )
-            }
         }
     }
 }

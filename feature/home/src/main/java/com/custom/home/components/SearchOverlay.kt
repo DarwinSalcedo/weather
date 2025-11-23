@@ -36,7 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.custom.home.domain.model.CityUiModel
-import com.custom.home.ui.MINIMIMUM_CHARACTERS_TO_SEARCH
+import com.custom.home.ui.MINIMUM_CHARACTERS_TO_SEARCH
 import com.custom.home.ui.SearchState
 
 
@@ -96,21 +96,21 @@ fun SearchOverlay(
                     }
 
                     is SearchState.Results -> {
-                        if (state.cities.isEmpty() && query.length >= MINIMIMUM_CHARACTERS_TO_SEARCH) {
+                        if (state.cities.isEmpty() && query.length >= MINIMUM_CHARACTERS_TO_SEARCH) {
                             Text(
                                 "Not results for '$query'.",
                                 modifier = Modifier.padding(16.dp)
                             )
-                        } else if (state.cities.isEmpty() && query.length < 3) {
+                        } else if (state.cities.isEmpty()) {
                             Text(
-                                "Write at least 3 characters to search.",
+                                "Write at least $MINIMUM_CHARACTERS_TO_SEARCH characters to search.",
                                 modifier = Modifier.padding(16.dp)
                             )
                         } else {
                             LazyColumn(Modifier.fillMaxSize()) {
                                 items(state.cities) { city ->
                                     ListItem(
-                                        headlineContent = { Text(city.name) },
+                                        headlineContent = { Text(city.name + "(" + city.country + ")") },
                                         supportingContent = { Text(city.coordinatesText) },
                                         leadingContent = {
                                             Icon(
@@ -118,7 +118,10 @@ fun SearchOverlay(
                                                 contentDescription = null
                                             )
                                         },
-                                        modifier = Modifier.clickable { onCitySelected(city) }
+                                        modifier = Modifier.clickable {
+                                            onCitySelected(city)
+                                            query = ""; onQueryChanged("")
+                                        }
                                     )
                                     HorizontalDivider()
                                 }
