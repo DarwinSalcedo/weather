@@ -1,15 +1,16 @@
-package com.custom.data
+package com.custom.data.weater
 
 import com.custom.data.remote.AuthInterceptor
 import com.custom.data.remote.WeatherApi
 import com.google.gson.Gson
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.test.runTest
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
@@ -109,8 +110,12 @@ class WeatherApiTest {
 
             val weatherDto = apiService.getCurrentWeather("Catamarca")
 
-            assertEquals("San Fernando del Valle de Catamarca", weatherDto.cityName)
-            assertEquals(23.21, weatherDto.main.temperature, 0.01) // Usamos delta para Doubles
+            Assert.assertEquals("San Fernando del Valle de Catamarca", weatherDto.cityName)
+            Assert.assertEquals(
+                23.21,
+                weatherDto.main.temperature,
+                0.01
+            )
             assertEquals("clear sky", weatherDto.weather.first().description)
             assertEquals(38, weatherDto.main.humidity)
             assertEquals(4.92, weatherDto.wind.speed, 0.01)

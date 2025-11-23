@@ -1,4 +1,4 @@
-package com.custom.data
+package com.custom.data.weater
 
 import com.custom.data.dto.MainDto
 import com.custom.data.dto.WeatherDetailDto
@@ -8,12 +8,11 @@ import com.custom.data.remote.WeatherApi
 import com.custom.data.repository.WeatherRepositoryImpl
 import io.mockk.coEvery
 import io.mockk.mockk
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import java.io.IOException
-
 
 class WeatherRepositoryTest {
 
