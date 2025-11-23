@@ -2,6 +2,10 @@ package com.custom.home.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.custom.core.repository.LocationRepository
+import com.custom.home.domain.model.TemperatureUiModel
+import com.custom.home.domain.model.WeatherUiModel
+import com.custom.home.domain.usecase.GetCurrentWeatherByCoordinateUseCase
 import com.custom.home.domain.usecase.GetCurrentWeatherUseCase
 import com.custom.home.domain.usecase.SearchCitiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,10 +17,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+const val MINIMIMUM_CHARACTERS_TO_SEARCH = 3
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
+    private val locationRepository: LocationRepository,
     private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
+    private val getCurrentWeatherByCoordinateUseCase: GetCurrentWeatherByCoordinateUseCase,
     private val searchCitiesUseCase: SearchCitiesUseCase
 ) : ViewModel() {
 
@@ -30,15 +37,67 @@ class WeatherViewModel @Inject constructor(
     private var searchJob: Job? = null
 
 
+    fun fetchWeatherByLocation() {
+        if (_weatherState.value !is WeatherState.Success) {
+            _weatherState.update { WeatherState.LoadingLocation }
+        }
+
+        viewModelScope.launch {
+            locationRepository.getLocationUpdates()
+                .collect { locationModel ->
+                    fetchWeatherByCoordinates(locationModel.latitude, locationModel.longitude)
+                    this.coroutineContext[Job]?.cancel()
+                }
+        }
+    }
+
+
+    fun fetchWeatherByCoordinates(latitude: Double, longitude: Double) {
+        viewModelScope.launch {
+            _weatherState.update { WeatherState.LoadingWeather }
+
+            val result =
+                getCurrentWeatherByCoordinateUseCase(
+                    latitude,
+                    longitude
+                )
+
+            _weatherState.update {
+                result.fold(
+                    onSuccess = { weatherUiModel ->
+                        WeatherState.Success(weatherUiModel)
+                    },
+                    onFailure = { e -> WeatherState.Error("Unexpected error loading the weather: ${e.message}") }
+                )
+            }
+        }
+    }
+
+
+    fun handlePermissionSkipped() {
+        val defaultWeatherModel = WeatherUiModel(
+            cityName = "---",
+            temperature = TemperatureUiModel("?", ""),
+            conditionDescription = "---",
+            humidityText = "-",
+            windSpeedText = "-",
+            iconUrl = ""
+        )
+
+        _weatherState.update { WeatherState.Success(defaultWeatherModel) }
+    }
+
+
     fun refreshWeather() {
         _weatherState.update { WeatherState.LocationPermissionRequired }
     }
 
 
+
     fun onSearchQueryChanged(query: String) {
         searchJob?.cancel()
 
-        if (query.isBlank() || query.length < 3) {
+        if (query.isBlank() || query.length < MINIMIMUM_CHARACTERS_TO_SEARCH) {
             if (_searchState.value !is SearchState.Init) {
                 _searchState.update { SearchState.Results(emptyList()) }
             }
@@ -55,7 +114,7 @@ class WeatherViewModel @Inject constructor(
                     onSuccess = { citiesUiModel ->
                         SearchState.Results(citiesUiModel)
                     },
-                    onFailure = { e -> SearchState.Error("Error ${e.message}") }
+                    onFailure = { e -> SearchState.Error("Error searching ${e.message}") }
                 )
             }
         }
@@ -72,6 +131,11 @@ class WeatherViewModel @Inject constructor(
         _searchState.update { SearchState.Init }
     }
 
+    fun setPermissionRequired() {
+        _weatherState.update {
+            WeatherState.LocationPermissionRequired
+        }
+    }
 
     fun fetchWeatherByCity(city: String) {
         viewModelScope.launch {
@@ -83,7 +147,7 @@ class WeatherViewModel @Inject constructor(
                     onSuccess = { weatherUiModel ->
                         WeatherState.Success(weatherUiModel)
                     },
-                    onFailure = { e -> WeatherState.Error("Error $city: ${e.message}") }
+                    onFailure = { e -> WeatherState.Error("Error loading the weather for $city: ${e.message}") }
                 )
             }
         }
