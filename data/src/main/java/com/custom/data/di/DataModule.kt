@@ -1,9 +1,12 @@
 package com.custom.data.di
 
+import com.custom.core.repository.CitySearchRepository
 import com.custom.core.repository.WeatherRepository
 import com.custom.data.BuildConfig
 import com.custom.data.remote.AuthInterceptor
+import com.custom.data.remote.GeoApi
 import com.custom.data.remote.WeatherApi
+import com.custom.data.repository.CitySearchRepositoryImpl
 import com.custom.data.repository.WeatherRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -56,4 +59,19 @@ object DataModule {
     ): WeatherRepository {
         return WeatherRepositoryImpl(apiService)
     }
+
+    @Provides
+    @Singleton
+    fun provideGeoApi(retrofit: Retrofit): GeoApi {
+        return retrofit.create(GeoApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCitySearchRepository(
+        apiService: GeoApi
+    ): CitySearchRepository {
+        return CitySearchRepositoryImpl(apiService)
+    }
+
 }
