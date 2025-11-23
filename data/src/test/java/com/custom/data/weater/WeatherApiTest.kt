@@ -75,7 +75,7 @@ class WeatherApiTest {
     }
 
     @Test
-    fun `when a api call is made, then a request is sent to the server with the correct parameters`() =
+    fun `when a api call getCurrentWeatherByCity is made, then a request is sent to the server with the correct parameters`() =
         runTest {
             val cityName = "Cordoba"
 
@@ -85,7 +85,7 @@ class WeatherApiTest {
                     .setBody(mockWeatherResponseJson)
             )
 
-            apiService.getCurrentWeather(cityName)
+            apiService.getCurrentWeatherByCity(cityName)
 
 
             val recordedRequest = mockWebServer.takeRequest()
@@ -100,7 +100,7 @@ class WeatherApiTest {
         }
 
     @Test
-    fun `Given a success response, when getCurrentWeather is called, then WeatherDto is returned`() =
+    fun `Given a success response, when getCurrentWeatherByCity is called, then WeatherDto is returned`() =
         runTest {
             mockWebServer.enqueue(
                 MockResponse()
@@ -108,7 +108,61 @@ class WeatherApiTest {
                     .setBody(mockWeatherResponseJson)
             )
 
-            val weatherDto = apiService.getCurrentWeather("Catamarca")
+            val weatherDto = apiService.getCurrentWeatherByCity("Catamarca")
+
+            Assert.assertEquals("San Fernando del Valle de Catamarca", weatherDto.cityName)
+            Assert.assertEquals(
+                23.21,
+                weatherDto.main.temperature,
+                0.01
+            )
+            assertEquals("clear sky", weatherDto.weather.first().description)
+            assertEquals(38, weatherDto.main.humidity)
+            assertEquals(4.92, weatherDto.wind.speed, 0.01)
+        }
+
+    @Test
+    fun `when a api call getCurrentWeatherByCoordinates is made, then a request is sent to the server with the correct parameters`() =
+        runTest {
+
+            val lat =-28.46
+            val long =  -65.78
+
+            mockWebServer.enqueue(
+                MockResponse()
+                    .setResponseCode(HttpURLConnection.HTTP_OK)
+                    .setBody(mockWeatherResponseJson)
+            )
+
+            apiService.getCurrentWeatherByCoordinates(lat,long)
+
+
+            val recordedRequest = mockWebServer.takeRequest()
+
+            assertEquals("/data/2.5/weather", recordedRequest.path?.substringBefore('?'))
+
+            assertTrue(recordedRequest.path!!.contains("lat=$lat"))
+
+            assertTrue(recordedRequest.path!!.contains("lon=$long"))
+
+            assertTrue(recordedRequest.path!!.contains("units=metric"))
+
+            assertTrue(recordedRequest.path!!.contains("appid="))
+        }
+
+    @Test
+    fun `Given a success response, when getCurrentWeatherByCoordinates is called, then WeatherDto is returned`() =
+        runTest {
+            val lat =-28.46
+            val long =  -65.78
+
+            mockWebServer.enqueue(
+                MockResponse()
+                    .setResponseCode(HttpURLConnection.HTTP_OK)
+                    .setBody(mockWeatherResponseJson)
+            )
+
+            val weatherDto = apiService.getCurrentWeatherByCoordinates(lat,long)
 
             Assert.assertEquals("San Fernando del Valle de Catamarca", weatherDto.cityName)
             Assert.assertEquals(

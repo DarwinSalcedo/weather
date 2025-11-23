@@ -18,7 +18,6 @@ class WeatherRepositoryTest {
 
     private val apiService: WeatherApi = mockk()
     private lateinit var repository: WeatherRepositoryImpl
-
     private val mockWeatherDto = WeatherDto(
         cityName = "Catamarca",
         main = MainDto(
@@ -39,7 +38,7 @@ class WeatherRepositoryTest {
     @Test
     fun `Given a getCurrentWeather api call when the getCurrentWeatherByCity is invoke then the response is success`() =
         runTest {
-            coEvery { apiService.getCurrentWeather("Catamarca") } returns mockWeatherDto
+            coEvery { apiService.getCurrentWeatherByCity("Catamarca") } returns mockWeatherDto
 
             val result = repository.getCurrentWeatherByCity("Catamarca")
 
@@ -53,9 +52,35 @@ class WeatherRepositoryTest {
     @Test
     fun `Given a getCurrentWeather api call when the getCurrentWeatherByCity is invoke then the response is failure`() =
         runTest {
-            coEvery { apiService.getCurrentWeather(any()) } throws IOException("No connection")
+            coEvery { apiService.getCurrentWeatherByCity(any()) } throws IOException("No connection")
 
             val result = repository.getCurrentWeatherByCity("London")
+
+            assertTrue(result.isFailure)
+            assertTrue(result.exceptionOrNull() is IOException)
+        }
+
+
+    @Test
+    fun `Given a getCurrentWeather api call when the getCurrentWeatherByCoordinates is invoke then the response is success`() =
+        runTest {
+            coEvery { apiService.getCurrentWeatherByCoordinates(any(),any()) } returns mockWeatherDto
+
+            val result = repository.getCurrentWeatherByCoordinates(10.0,10.0)
+
+            assertTrue(result.isSuccess)
+
+            val weatherModel = result.getOrThrow()
+            assertTrue(weatherModel.cityName == "Catamarca")
+            assertTrue(weatherModel.temperatureModel.temperature == 25.5)
+        }
+
+    @Test
+    fun `Given a getCurrentWeather api call when the getCurrentWeatherByCoordinates is invoke then the response is failure`() =
+        runTest {
+            coEvery { apiService.getCurrentWeatherByCoordinates(any(),any()) } throws IOException("No connection")
+
+            val result = repository.getCurrentWeatherByCoordinates(10.0,10.0)
 
             assertTrue(result.isFailure)
             assertTrue(result.exceptionOrNull() is IOException)

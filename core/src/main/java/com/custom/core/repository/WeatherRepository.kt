@@ -11,4 +11,15 @@ interface WeatherRepository {
      */
     suspend fun getCurrentWeatherByCity(city: String): Result<WeatherModel>
 
+    /**
+     * Get the current weather of a city.
+     * @param latitude the latitude of the city.
+     * @param longitude the longitude of the city.
+     */
+    suspend fun getCurrentWeatherByCoordinates(
+        latitude: Double,
+        longitude: Double,
+    ): Result<WeatherModel>
+
+
 }

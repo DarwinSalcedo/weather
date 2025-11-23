@@ -11,7 +11,23 @@ class WeatherRepositoryImpl @Inject constructor(private val api: WeatherApi) : W
     override suspend fun getCurrentWeatherByCity(city: String): Result<WeatherModel> {
         return try {
 
-            val dto = api.getCurrentWeather(city)
+            val dto = api.getCurrentWeatherByCity(city)
+            val domainModel = dto.toDomainModel()
+            Result.success(domainModel)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getCurrentWeatherByCoordinates(
+        latitude: Double,
+        longitude: Double
+    ): Result<WeatherModel> {
+        return try {
+
+            val dto = api.getCurrentWeatherByCoordinates(latitude, longitude)
             val domainModel = dto.toDomainModel()
             Result.success(domainModel)
 
