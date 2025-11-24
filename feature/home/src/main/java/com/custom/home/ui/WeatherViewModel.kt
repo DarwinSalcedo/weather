@@ -2,19 +2,20 @@ package com.custom.home.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.custom.core.di.IoDispatcher
 import com.custom.core.repository.LocationRepository
-import com.custom.home.domain.model.TemperatureUiModel
 import com.custom.home.domain.model.WeatherUiModel
 import com.custom.home.domain.usecase.GetCurrentWeatherByCoordinateUseCase
 import com.custom.home.domain.usecase.SearchCitiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 const val MINIMUM_CHARACTERS_TO_SEARCH = 3
@@ -23,7 +24,8 @@ const val MINIMUM_CHARACTERS_TO_SEARCH = 3
 class WeatherViewModel @Inject constructor(
     private val locationRepository: LocationRepository,
     private val getCurrentWeatherByCoordinateUseCase: GetCurrentWeatherByCoordinateUseCase,
-    private val searchCitiesUseCase: SearchCitiesUseCase
+    private val searchCitiesUseCase: SearchCitiesUseCase,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _weatherState =
@@ -40,8 +42,7 @@ class WeatherViewModel @Inject constructor(
         if (_weatherState.value !is WeatherState.Success) {
             _weatherState.update { WeatherState.LoadingLocation }
         }
-
-        viewModelScope.launch((Dispatchers.IO)) {
+        viewModelScope.launch(dispatcher) {
             locationRepository.getLocationUpdates()
                 .collect { locationModel ->
                     fetchWeatherByCoordinates(locationModel.latitude, locationModel.longitude)
@@ -52,7 +53,7 @@ class WeatherViewModel @Inject constructor(
 
 
     fun fetchWeatherByCoordinates(latitude: Double, longitude: Double) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcher) {
             _weatherState.update { WeatherState.LoadingWeather }
 
             val result =
@@ -66,7 +67,9 @@ class WeatherViewModel @Inject constructor(
                     onSuccess = { weatherUiModel ->
                         WeatherState.Success(weatherUiModel)
                     },
-                    onFailure = { e -> WeatherState.Error("Unexpected error loading the weather: ${e.message}") }
+                    onFailure = { e ->
+                        WeatherState.Error("Unexpected error loading the weather: ${e.message}")
+                    }
                 )
             }
         }
@@ -74,16 +77,7 @@ class WeatherViewModel @Inject constructor(
 
 
     fun handlePermissionSkipped() {
-        val defaultWeatherModel = WeatherUiModel(
-            cityName = "---",
-            temperature = TemperatureUiModel("?", ""),
-            conditionDescription = "---",
-            humidityText = "-",
-            windSpeedText = "-",
-            iconUrl = ""
-        )
-
-        _weatherState.update { WeatherState.Success(defaultWeatherModel) }
+        _weatherState.update { WeatherState.Success(WeatherUiModel.default) }
     }
 
 
@@ -95,15 +89,8 @@ class WeatherViewModel @Inject constructor(
     fun onSearchQueryChanged(query: String) {
         searchJob?.cancel()
 
-        if (query.isBlank() || query.length < MINIMUM_CHARACTERS_TO_SEARCH) {
-            if (_searchState.value !is SearchState.Init) {
-                _searchState.update { SearchState.Results(emptyList()) }
-            }
-            return
-        }
-
         _searchState.update { SearchState.Searching }
-        searchJob = viewModelScope.launch(Dispatchers.IO) {
+        searchJob = viewModelScope.launch(dispatcher) {
 
             val result = searchCitiesUseCase(query)
 
@@ -130,6 +117,7 @@ class WeatherViewModel @Inject constructor(
         searchJob?.cancel()
         _searchState.update { SearchState.Init }
     }
+
 
     fun setPermissionRequired() {
         _weatherState.update {

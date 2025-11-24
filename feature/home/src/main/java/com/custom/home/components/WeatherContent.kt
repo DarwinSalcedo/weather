@@ -35,8 +35,6 @@ fun WeatherContent(
     weather: WeatherUiModel,
     onSearchClicked: () -> Unit
 ) {
-    val isPlaceholder = weather.temperature.current == "?"
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -55,7 +53,7 @@ fun WeatherContent(
                 Icon(Icons.Default.Search, contentDescription = "Search a city")
                 Spacer(Modifier.width(8.dp))
 
-                val searchPrompt = if (isPlaceholder) {
+                val searchPrompt = if (weather.isPlaceholder) {
                     "Search a city"
                 } else {
                     "Search other city"
@@ -66,7 +64,7 @@ fun WeatherContent(
 
         Spacer(Modifier.height(32.dp))
 
-        if (!isPlaceholder) {
+        if (!weather.isPlaceholder) {
             Text(
                 weather.cityName,
                 style = MaterialTheme.typography.headlineLarge,
