@@ -1,6 +1,8 @@
 package com.custom.home.domain.usecase
 
 import com.custom.core.repository.WeatherRepository
+import com.custom.core.util.OperationResult
+import com.custom.core.util.toAppError
 import com.custom.home.domain.model.WeatherUiModel
 import com.custom.home.domain.toUiModel
 import javax.inject.Inject
@@ -12,7 +14,7 @@ class GetCurrentWeatherByCoordinateUseCase @Inject constructor(
     suspend operator fun invoke(
         latitude: Double,
         longitude: Double,
-    ): Result<WeatherUiModel> {
+    ): OperationResult<WeatherUiModel> {
 
         val result = weatherRepository.getCurrentWeatherByCoordinates(
             latitude,
@@ -21,10 +23,10 @@ class GetCurrentWeatherByCoordinateUseCase @Inject constructor(
 
         return result.fold(
             onSuccess = { domainModel ->
-                Result.success(domainModel.toUiModel())
+                OperationResult.Success(domainModel.toUiModel())
             },
             onFailure = { error ->
-                Result.failure(error)
+                OperationResult.Failure(error.toAppError())
             }
         )
     }

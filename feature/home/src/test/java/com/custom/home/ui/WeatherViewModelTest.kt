@@ -3,6 +3,8 @@ package com.custom.home.ui
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.custom.core.model.LocationModel
 import com.custom.core.repository.LocationRepository
+import com.custom.core.util.AppError
+import com.custom.core.util.OperationResult
 import com.custom.home.domain.model.CityUiModel
 import com.custom.home.domain.model.TemperatureUiModel
 import com.custom.home.domain.model.WeatherUiModel
@@ -88,7 +90,7 @@ class WeatherViewModelTest {
 
             coEvery {
                 mockWeatherUseCase(MOCK_LAT, MOCK_LON)
-            } returns Result.success(MOCK_WEATHER_UI)
+            } returns OperationResult.Success(MOCK_WEATHER_UI)
 
 
             viewModel.fetchWeatherByLocation()
@@ -109,7 +111,7 @@ class WeatherViewModelTest {
         runTest {
             coEvery {
                 mockWeatherUseCase(MOCK_LAT, MOCK_LON)
-            } returns Result.success(MOCK_WEATHER_UI)
+            } returns OperationResult.Success(MOCK_WEATHER_UI)
 
             viewModel.fetchWeatherByCoordinates(MOCK_LAT, MOCK_LON)
 
@@ -126,7 +128,7 @@ class WeatherViewModelTest {
         runTest {
             coEvery {
                 mockWeatherUseCase(any(), any())
-            } returns Result.failure(Exception("API error"))
+            } returns OperationResult.Failure(AppError.NetworkError)
 
             viewModel.fetchWeatherByCoordinates(MOCK_LAT, MOCK_LON)
 
@@ -141,7 +143,7 @@ class WeatherViewModelTest {
         runTest {
             val shortQuery = "PA"
 
-            coEvery { mockSearchUseCase(shortQuery) } returns Result.success(emptyList())
+            coEvery { mockSearchUseCase(shortQuery) } returns OperationResult.Success(emptyList())
 
             viewModel.onSearchQueryChanged(shortQuery)
             advanceUntilIdle()
@@ -158,7 +160,7 @@ class WeatherViewModelTest {
         runTest {
             val query = "London"
 
-            coEvery { mockSearchUseCase(query) } returns Result.success(MOCK_CITIES_UI)
+            coEvery { mockSearchUseCase(query) } returns OperationResult.Success(MOCK_CITIES_UI)
 
             viewModel.onSearchQueryChanged(query)
             advanceUntilIdle()
@@ -175,7 +177,7 @@ class WeatherViewModelTest {
 
             coEvery { mockSearchUseCase("A") } coAnswers { throw Exception("prevous job canceled") }
 
-            coEvery { mockSearchUseCase("AB") } returns Result.success(MOCK_CITIES_UI)
+            coEvery { mockSearchUseCase("AB") } returns OperationResult.Success(MOCK_CITIES_UI)
 
             viewModel.onSearchQueryChanged("A")
 

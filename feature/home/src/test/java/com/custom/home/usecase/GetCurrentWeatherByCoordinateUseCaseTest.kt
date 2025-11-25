@@ -3,6 +3,8 @@ package com.custom.home.usecase
 import com.custom.core.model.TemperatureModel
 import com.custom.core.model.WeatherModel
 import com.custom.core.repository.WeatherRepository
+import com.custom.core.util.AppError
+import com.custom.core.util.OperationResult
 import com.custom.home.domain.toUiModel
 import com.custom.home.domain.usecase.GetCurrentWeatherByCoordinateUseCase
 import io.mockk.coEvery
@@ -52,8 +54,8 @@ class GetCurrentWeatherByCoordinateUseCaseTest {
 
             val result = useCase.invoke(LAT, LON)
 
-            Assert.assertTrue(result.isSuccess)
-            val actualUiModel = result.getOrThrow()
+            Assert.assertTrue(result is OperationResult.Success)
+            val actualUiModel = (result as (OperationResult.Success)).data
 
             Assert.assertEquals(expectedUiModel.cityName, actualUiModel.cityName)
             Assert.assertEquals(
@@ -77,10 +79,10 @@ class GetCurrentWeatherByCoordinateUseCaseTest {
 
             val result = useCase.invoke(LAT, LON)
 
-            Assert.assertTrue(result.isFailure)
+            Assert.assertTrue(result is OperationResult.Failure)
             Assert.assertEquals(
-                mockException,
-                result.exceptionOrNull()
+                OperationResult.Failure(AppError.NetworkError),
+                result
             )
         }
 }

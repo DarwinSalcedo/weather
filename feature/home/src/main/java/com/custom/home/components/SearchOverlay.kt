@@ -82,7 +82,10 @@ fun SearchOverlay(
                     )
 
                     AnimatedVisibility(visible = query.isNotEmpty()) {
-                        IconButton(onClick = { query = ""; onQueryChanged("") }) {
+                        IconButton(onClick = {
+                            query = ""
+                            onQueryChanged("")
+                        }) {
                             Icon(Icons.Default.Close, contentDescription = "Clear query")
                         }
                     }
@@ -119,8 +122,9 @@ fun SearchOverlay(
                                             )
                                         },
                                         modifier = Modifier.clickable {
+                                            query = ""
+                                            onQueryChanged("")
                                             onCitySelected(city)
-                                            query = ""; onQueryChanged("")
                                         }
                                     )
                                     HorizontalDivider()
@@ -131,7 +135,7 @@ fun SearchOverlay(
 
                     is SearchState.Error -> {
                         Text(
-                            text = "Error: ${state.message}",
+                            text = state.message,
                             color = MaterialTheme.colorScheme.error,
                             modifier = Modifier.padding(16.dp)
                         )
