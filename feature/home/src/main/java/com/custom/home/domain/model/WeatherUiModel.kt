@@ -4,20 +4,24 @@ package com.custom.home.domain.model
 data class WeatherUiModel(
     val isPlaceholder: Boolean = false,
     val cityName: String,
-    val temperature: TemperatureUiModel,
+    val currentTemperature: Double,
+    val minTemperature: Double,
+    val maxTemperature: Double,
     val conditionDescription: String,
-    val humidityText: String,
-    val windSpeedText: String,
+    val humidityPercentage: Int,
+    val windSpeedText: Double,
     val iconUrl: String
 ) {
     companion object {
         val default = WeatherUiModel(
             isPlaceholder = true,
             cityName = "",
-            temperature = TemperatureUiModel("", ""),
+            currentTemperature = 0.0,
+            minTemperature = 0.0,
+            maxTemperature = 0.0,
             conditionDescription = "",
-            humidityText = "",
-            windSpeedText = "",
+            humidityPercentage = 0,
+            windSpeedText = 0.0,
             iconUrl = ""
         )
     }

@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">home</string>
+    <string name="allow_location">Allow location</string>
+    <string name="current_temp">%1$d °C</string>
+    <string name="humidity">%1$d %%</string>
+    <string name="min_max_temp">Mín: %1$d °C / Máx: %2$d °C</string>
+    <string name="wind_speed">%.1f m/s</string>
+    <string name="refresh_local_weather">Refresh local weather</string>
+    <string name="getting_location">Getting location</string>
+    <string name="updating_weather">Updating weather</string>
+    <string name="city_forecast">City forecast</string>
+    <string name="error">Error</string>
+    <string name="ups_unexpected_error">¡Ups unexpected error!</string>
+    <string name="search_a_city">Search a city</string>
+    <string name="search_other_city">Search other city</string>
+    <string name="humidity_title">Humidity</string>
+    <string name="wind">Wind</string>
+    <string name="temperature">Temperature</string>
+    <string name="coordinates_lat_lon">Lat: %1$.2f, Lon: %2$.2f</string>
+    <string name="not_results_for">Not results for \'%1$s\'.</string>
+    <string name="write_at_least_characters_to_search">Write at least %1$d characters to search.</string>
+    <string name="name_of_the_city">Name of the city</string>
+    <string name="clear_query">Clear query</string>
+    <string name="close_search">Close search</string>
+    <string name="search_a_city_to_get_started">Search a city to get started.</string>
+    <string name="welcome">Welcome</string>
+    <string name="continue_without_location">Continue without location</string>
+    <string name="to_get_the_local_weather_we_need_to_access_your_location">To get the local weather, we need to access your location.</string>
+    <string name="location_permission_is_required">Location permission is required</string>
+    <string name="location_authorize">Location authorize</string>
+
 </resources>

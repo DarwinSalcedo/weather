@@ -106,16 +106,13 @@ class WeatherViewModel @Inject constructor(
 
 
     fun activateSearch() {
-        println("activateSearch")
         _searchState.update { SearchState.Results(emptyList()) }
     }
 
 
     fun clearSearch() {
-        println("clearSearch")
         searchJob?.cancel()
         _searchState.update { SearchState.Init }
-        println("clearSearch1")
 
     }
 

@@ -22,9 +22,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.custom.home.R
 
 
 @Composable
@@ -56,7 +58,7 @@ fun LocationPermissionScreen(
 
             Icon(
                 Icons.Filled.AddLocationAlt,
-                contentDescription = "Location authorize",
+                contentDescription = stringResource(R.string.location_authorize),
                 modifier = Modifier.size(80.dp),
                 tint = MaterialTheme.colorScheme.primary
             )
@@ -64,7 +66,7 @@ fun LocationPermissionScreen(
             Spacer(Modifier.height(32.dp))
 
             Text(
-                text = "Location permission is required",
+                text = stringResource(R.string.location_permission_is_required),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
@@ -73,7 +75,7 @@ fun LocationPermissionScreen(
             Spacer(Modifier.height(16.dp))
 
             Text(
-                text = "To get the local weather, we need to access your location.",
+                text = stringResource(R.string.to_get_the_local_weather_we_need_to_access_your_location),
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 16.dp)
@@ -90,7 +92,7 @@ fun LocationPermissionScreen(
                     .fillMaxWidth(0.8f)
                     .height(56.dp)
             ) {
-                Text("Allow location")
+                Text(stringResource(R.string.allow_location))
             }
             Spacer(Modifier.height(32.dp))
 
@@ -106,7 +108,7 @@ fun LocationPermissionScreen(
                     .fillMaxWidth(0.8f)
                     .height(56.dp)
             ) {
-                Text("Continue without location")
+                Text(stringResource(R.string.continue_without_location))
             }
         }
     }

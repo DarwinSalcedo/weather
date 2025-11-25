@@ -55,10 +55,12 @@ class WeatherViewModelTest {
     private val MOCK_CITY_NAME = "London"
     private val MOCK_WEATHER_UI = WeatherUiModel(
         cityName = MOCK_CITY_NAME,
-        temperature = TemperatureUiModel("25°C", "18°C/32°C"),
+        currentTemperature = 20.0,
+        minTemperature = 10.0,
+        maxTemperature = 30.0,
         conditionDescription = "Clear",
-        humidityText = "50%",
-        windSpeedText = "10.5 m/s",
+        humidityPercentage = 0,
+        windSpeedText = 0.0,
         iconUrl = "url"
     )
     private val MOCK_CITIES_UI = listOf(CityUiModel(MOCK_CITY_NAME, "", 0.0, 0.0, ""))

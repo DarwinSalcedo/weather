@@ -34,7 +34,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.custom.home.R
 import com.custom.home.domain.model.CityUiModel
 import com.custom.home.ui.MINIMUM_CHARACTERS_TO_SEARCH
 import com.custom.home.ui.SearchState
@@ -67,7 +69,7 @@ fun SearchOverlay(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     IconButton(onClick = onClose) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Close search")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.close_search))
                     }
 
                     OutlinedTextField(
@@ -76,7 +78,7 @@ fun SearchOverlay(
                             query = it
                             onQueryChanged(it)
                         },
-                        label = { Text("Name of the city") },
+                        label = { Text(stringResource(R.string.name_of_the_city)) },
                         singleLine = true,
                         modifier = Modifier.weight(1f)
                     )
@@ -86,7 +88,7 @@ fun SearchOverlay(
                             query = ""
                             onQueryChanged("")
                         }) {
-                            Icon(Icons.Default.Close, contentDescription = "Clear query")
+                            Icon(Icons.Default.Close, contentDescription = stringResource(R.string.clear_query))
                         }
                     }
                 }
@@ -101,20 +103,31 @@ fun SearchOverlay(
                     is SearchState.Results -> {
                         if (state.cities.isEmpty() && query.length >= MINIMUM_CHARACTERS_TO_SEARCH) {
                             Text(
-                                "Not results for '$query'.",
+                                stringResource(R.string.not_results_for, query),
                                 modifier = Modifier.padding(16.dp)
                             )
                         } else if (state.cities.isEmpty()) {
                             Text(
-                                "Write at least $MINIMUM_CHARACTERS_TO_SEARCH characters to search.",
+                                stringResource(
+                                    R.string.write_at_least_characters_to_search,
+                                    MINIMUM_CHARACTERS_TO_SEARCH
+                                ),
                                 modifier = Modifier.padding(16.dp)
                             )
                         } else {
                             LazyColumn(Modifier.fillMaxSize()) {
                                 items(state.cities) { city ->
                                     ListItem(
-                                        headlineContent = { Text(city.name + "(" + city.country + ")") },
-                                        supportingContent = { Text(city.coordinatesText) },
+                                        headlineContent = { Text(city.name + " (" + city.country + ")") },
+                                        supportingContent = {
+                                            Text(
+                                                stringResource(
+                                                    R.string.coordinates_lat_lon,
+                                                    city.latitude,
+                                                    city.longitude
+                                                ),
+                                            )
+                                        },
                                         leadingContent = {
                                             Icon(
                                                 Icons.Default.LocationCity,
