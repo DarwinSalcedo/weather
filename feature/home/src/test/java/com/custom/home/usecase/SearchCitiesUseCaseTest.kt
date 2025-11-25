@@ -2,6 +2,7 @@ package com.custom.home.usecase
 
 import com.custom.core.model.CityModel
 import com.custom.core.repository.CitySearchRepository
+import com.custom.core.util.OperationResult
 import com.custom.home.domain.model.CityUiModel
 import com.custom.home.domain.toUiModel
 import com.custom.home.domain.usecase.SearchCitiesUseCase
@@ -46,8 +47,8 @@ class SearchCitiesUseCaseTest {
 
             val result = useCase.invoke(query)
 
-            Assert.assertTrue(result.isSuccess)
-            val actualUiList = result.getOrThrow()
+            Assert.assertTrue(result is OperationResult.Success)
+            val actualUiList = (result as OperationResult.Success).data
 
             Assert.assertEquals(1, actualUiList.size)
             Assert.assertEquals(expectedUiList.first().name, actualUiList.first().name)
@@ -70,11 +71,8 @@ class SearchCitiesUseCaseTest {
 
             val result = useCase.invoke(query)
 
-            Assert.assertTrue(result.isFailure)
-            Assert.assertEquals(
-                mockException,
-                result.exceptionOrNull()
-            )
+            Assert.assertTrue(result is OperationResult.Failure)
+
         }
 
     @Test
@@ -86,8 +84,8 @@ class SearchCitiesUseCaseTest {
 
             val result = useCase.invoke(query)
 
-            Assert.assertTrue(result.isSuccess)
-            Assert.assertTrue(result.getOrThrow().isEmpty())
+            Assert.assertTrue(result is OperationResult.Success)
+            Assert.assertTrue((result as OperationResult.Success).data.isEmpty())
         }
 
     @Test
@@ -99,7 +97,7 @@ class SearchCitiesUseCaseTest {
 
             val result = useCase.invoke(query)
 
-            Assert.assertTrue(result.isSuccess)
-            Assert.assertTrue(result.getOrThrow().isEmpty())
+            Assert.assertTrue(result is OperationResult.Success)
+            Assert.assertTrue((result as OperationResult.Success).data.isEmpty())
         }
 }

@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.custom.core.di.IoDispatcher
 import com.custom.core.repository.LocationRepository
+import com.custom.core.util.OperationResult
+import com.custom.core.util.mapAppErrorToUserMessage
 import com.custom.home.domain.model.WeatherUiModel
 import com.custom.home.domain.usecase.GetCurrentWeatherByCoordinateUseCase
 import com.custom.home.domain.usecase.SearchCitiesUseCase
@@ -62,14 +64,14 @@ class WeatherViewModel @Inject constructor(
                 )
 
             _weatherState.update {
-                result.fold(
-                    onSuccess = { weatherUiModel ->
-                        WeatherState.Success(weatherUiModel)
-                    },
-                    onFailure = { e ->
-                        WeatherState.Error("Unexpected error loading the weather: ${e.message}")
-                    }
-                )
+                when (result) {
+                    is OperationResult.Success -> WeatherState.Success(result.data)
+                    is OperationResult.Failure -> WeatherState.Error(
+                        message = mapAppErrorToUserMessage(
+                            result.error
+                        )
+                    )
+                }
             }
         }
     }
@@ -94,27 +96,27 @@ class WeatherViewModel @Inject constructor(
             val result = searchCitiesUseCase(query)
 
             _searchState.update {
-                result.fold(
-                    onSuccess = { citiesUiModel ->
-                        SearchState.Results(citiesUiModel)
-                    },
-                    onFailure = { e ->
-                        SearchState.Error("Error searching ${e.message}")
-                    }
-                )
+                when (result) {
+                    is OperationResult.Success -> SearchState.Results(result.data)
+                    is OperationResult.Failure -> SearchState.Error(mapAppErrorToUserMessage(error = result.error))
+                }
             }
         }
     }
 
 
     fun activateSearch() {
+        println("activateSearch")
         _searchState.update { SearchState.Results(emptyList()) }
     }
 
 
     fun clearSearch() {
+        println("clearSearch")
         searchJob?.cancel()
         _searchState.update { SearchState.Init }
+        println("clearSearch1")
+
     }
 
 
