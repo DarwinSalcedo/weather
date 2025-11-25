@@ -15,7 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.custom.home.R
 
 @Composable
 fun ErrorScreen(message: String) {
@@ -26,13 +28,20 @@ fun ErrorScreen(message: String) {
     ) {
         Icon(
             Icons.Default.Warning,
-            contentDescription = "Error",
+            contentDescription = stringResource(R.string.error),
             tint = MaterialTheme.colorScheme.error,
             modifier = Modifier.size(48.dp)
         )
         Spacer(Modifier.height(16.dp))
-        Text("¡Ocurrió un error!", style = MaterialTheme.typography.headlineSmall)
+        Text(
+            stringResource(R.string.ups_unexpected_error),
+            style = MaterialTheme.typography.headlineSmall
+        )
         Spacer(Modifier.height(8.dp))
-        Text(message, color = MaterialTheme.colorScheme.error, modifier = Modifier.padding(horizontal = 32.dp))
+        Text(
+            message,
+            color = MaterialTheme.colorScheme.error,
+            modifier = Modifier.padding(horizontal = 32.dp)
+        )
     }
 }

@@ -22,10 +22,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.custom.home.R
 import com.custom.home.components.SearchOverlay
 import com.custom.home.components.WeatherContent
 
@@ -65,7 +67,7 @@ fun WeatherScreen(
             TopAppBar(
                 title = {
                     Text(
-                        "City forecast", style = MaterialTheme.typography.headlineMedium,
+                        stringResource(R.string.city_forecast), style = MaterialTheme.typography.headlineMedium,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
                     )
@@ -78,7 +80,7 @@ fun WeatherScreen(
                         IconButton(onClick = viewModel::refreshWeather) {
                             Icon(
                                 Icons.Default.Place,
-                                contentDescription = "Refresh local weather"
+                                contentDescription = stringResource(R.string.refresh_local_weather)
                             )
                         }
                     }
@@ -107,9 +109,9 @@ fun WeatherScreen(
                 is WeatherState.LoadingLocation, WeatherState.LoadingWeather -> {
                     LoadingScreen(
                         message = if (state is WeatherState.LoadingLocation)
-                            "Getting location"
+                            stringResource(R.string.getting_location)
                         else
-                            "Updating weather"
+                            stringResource(R.string.updating_weather)
                     )
                 }
 

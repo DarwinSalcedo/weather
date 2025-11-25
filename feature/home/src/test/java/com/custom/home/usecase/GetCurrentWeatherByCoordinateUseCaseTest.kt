@@ -57,13 +57,13 @@ class GetCurrentWeatherByCoordinateUseCaseTest {
             Assert.assertTrue(result is OperationResult.Success)
             val actualUiModel = (result as (OperationResult.Success)).data
 
-            Assert.assertEquals(expectedUiModel.cityName, actualUiModel.cityName)
-            Assert.assertEquals(
-                expectedUiModel.temperature.current,
-                actualUiModel.temperature.current
+            Assert.assertTrue(expectedUiModel.cityName == actualUiModel.cityName)
+            Assert.assertTrue(
+                expectedUiModel.currentTemperature ==
+                        actualUiModel.currentTemperature
             )
-            Assert.assertEquals(
-                expectedUiModel.windSpeedText,
+            Assert.assertTrue(
+                expectedUiModel.windSpeedText ==
                 actualUiModel.windSpeedText
             )
         }
