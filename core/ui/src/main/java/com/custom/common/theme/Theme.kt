@@ -1,4 +1,4 @@
-package com.custom.home.theme
+package com.custom.common.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

@@ -1,11 +1,11 @@
-package com.custom.home.theme
+package com.custom.common.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.custom.home.theme.Typography
+import com.custom.common.theme.Typography
 
 // Set of Material typography styles to start with
 val Typography = Typography(
