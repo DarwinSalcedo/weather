@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="end">FINISH</string>
+    <string name="next">NEXT</string>
+
+    <string name="onboarding_icon_info_desc">Information icon</string>
+    <string name="onboarding_icon_search_desc">Search icon</string>
+    <string name="onboarding_title_1">Welcome to the Weather App</string>
+    <string name="onboarding_description_1">We\'ll guide you through the main features. Get ready to know the forecast!</string>
+    <string name="onboarding_title_2">Location or Manual Search</string>
+    <string name="onboarding_description_2">You can grant us permission to see your local weather or search for your favorite city at any time.</string>
+
+</resources>
