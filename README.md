@@ -14,36 +14,40 @@ Then place it in your `local.properties` file:
 OPENWEATHER_API_KEY="INSERT_API_KEY_HERE"
 ---
 
-## 🔑 Key Features
+## ✨ Key Features
 
-- **Local Weather:** Optional location fetching for local weather.  
-- **City Search:** Real-time city search function with suggestions (Geocoding).  
-- **Modern Design:** User interface built using Jetpack Compose and Material 3.  
+- **Local Weather:** Optional location fetching for local weather.
+- **City Search:** Real-time city search function with suggestions (Geocoding).
+- **Onboarding:** A user-friendly introduction to the app's features.- **Modern Design:** User interface built using Jetpack Compose and Material 3.
 
 ---
 
 ## 🧱 Project Architecture
 
-The project is divided into modules following the Clean Architecture principles (Domain / Data / Presentation) to ensure scalability, maintainability, and fast build times.
+The project is divided into modules following Clean Architecture principles to ensure scalability, maintainability, and fast build times. This separation of concerns is key to the project's design.
 
-| Module | Responsibility |
-|--------|----------------|
-| **:app** | Assembly: Contains the MainActivity, global Hilt configuration (DI), and the navigation container (Compose Navigation Host). |
-| **:core** | Domain: Contains interfaces (Repository Contracts) and Domain Models (WeatherModel, CityModel). It must not have dependencies on other project modules. |
-| **:data** | Infrastructure: Implements Repositories and data source logic (Retrofit, OkHttp, Fused Location Provider Client). Contains DTOs and the DTO → Domain mapping logic. |
-| **:feature:weather** | Presentation: Contains the logic for the Weather feature (ViewModels, Use Cases) and the User Interface (Compose). Includes Domain → UI mapping logic. |
+| Module                | Responsibility                                                                                                                              |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`:app`**            | **Assembly:** Contains the `MainActivity`, global Hilt configuration (DI), and the navigation container (Compose Navigation Host).           |
+| **`:core:domain`**    | **Domain Layer:** Contains business logic, Use Cases, and domain models (e.g., `WeatherModel`). Defines repository interfaces (contracts).     |
+| **`:core:di`**        | **Dependency Injection:** Provides global dependency modules using Hilt that are shared across the application.                               |
+| **`:core:ui`**        | **Design System:** Contains shared UI elements like themes, colors, typography, and reusable Jetpack Compose components.                    |
+| **`:data`**           | **Data Layer:** Implements repositories and manages data sources (Retrofit, OkHttp, Fused Location Provider). Contains DTOs and mapping logic. |
+| **`:feature:home`**   | **Presentation Layer:** Contains the logic and UI for the main weather screen (ViewModels, Composables).                                    |
+| **`:feature:onboarding`** | **Presentation Layer:** Implements the introductory flow for new users, guiding them through the app's functionalities.                   |
 
 ---
 
 ## 🛠️ Technologies Used
 
-- **Language:** Kotlin  
-- **UI:** Jetpack Compose (Material 3, Navigation)  
-- **Architecture:** Clean Architecture (Modular)  
-- **Asynchrony:** Kotlin Coroutines & Flow  
-- **Dependency Injection:** Hilt (Dagger)  
-- **Networking:** Retrofit, OkHttp (with API Key interceptors)  
-- **Serialization:** Gson  
+- **Language:** Kotlin
+- **UI:** Jetpack Compose (Material 3, Navigation, Compose BOM)
+- **Architecture:** Clean Architecture (Modular)
+- **Asynchrony:** Kotlin Coroutines & Flow
+- **Dependency Injection:** Hilt (with Hilt Navigation Compose)
+- **Networking:** Retrofit, OkHttp (with API Key interceptors)
+- **Image Loading:** Coil
+- **Serialization:** Gson
 
 ---
 <img width="108" height="240" alt="Screenshot_20251123_132212" src="https://github.com/user-attachments/assets/79af8f34-c08b-460e-b7d8-ac1dc10b40f4" />
