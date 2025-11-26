@@ -13,6 +13,8 @@ lifecycleRuntimeKtx = "2.9.4"
 activityCompose = "1.11.0"
 composeBom = "2024.09.00"
 appcompat = "1.6.1"
+lifecycleViewmodelCompose = "2.7.0"
+lifecycleViewmodelKtx = "2.7.0"
 material = "1.10.0"
 
 converterGson = "2.9.0"
@@ -30,6 +32,8 @@ androidx-compose-material-icons-extended = { module = "androidx.compose.material
 androidx-core = { module = "androidx.test:core", version.ref = "core" }
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 androidx-hilt-common = { module = "androidx.hilt:hilt-common", version.ref = "hiltCommon" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
