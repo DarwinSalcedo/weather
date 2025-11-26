@@ -1,15 +1,16 @@
 package com.custom.home.domain.usecase
 
-import com.custom.core.repository.CitySearchRepository
-import com.custom.core.util.OperationResult
-import com.custom.core.util.toAppError
+import com.custom.domain.common.OperationResult
+import com.custom.domain.repository.CitySearchRepository
+import com.custom.domain.repository.ErrorTranslator
+import com.custom.home.domain.mapper.toUiModel
 import com.custom.home.domain.model.CityUiModel
-import com.custom.home.domain.toUiModel
 import com.custom.home.ui.MINIMUM_CHARACTERS_TO_SEARCH
 import javax.inject.Inject
 
 class SearchCitiesUseCase @Inject constructor(
-    private val citySearchRepository: CitySearchRepository
+    private val citySearchRepository: CitySearchRepository,
+    private val errorTranslator: ErrorTranslator,
 ) {
 
     suspend operator fun invoke(params: String): OperationResult<List<CityUiModel>> {
@@ -25,7 +26,7 @@ class SearchCitiesUseCase @Inject constructor(
                 OperationResult.Success(domainList.map { it.toUiModel() })
             },
             onFailure = { error ->
-                OperationResult.Failure(error.toAppError())
+                OperationResult.Failure(errorTranslator.map(error))
             }
         )
     }

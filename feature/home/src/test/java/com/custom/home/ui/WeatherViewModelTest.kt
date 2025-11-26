@@ -1,12 +1,11 @@
 package com.custom.home.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.custom.core.model.LocationModel
-import com.custom.core.repository.LocationRepository
-import com.custom.core.util.AppError
-import com.custom.core.util.OperationResult
+import com.custom.domain.common.AppError
+import com.custom.domain.common.OperationResult
+import com.custom.domain.model.LocationModel
+import com.custom.domain.repository.LocationRepository
 import com.custom.home.domain.model.CityUiModel
-import com.custom.home.domain.model.TemperatureUiModel
 import com.custom.home.domain.model.WeatherUiModel
 import com.custom.home.domain.usecase.GetCurrentWeatherByCoordinateUseCase
 import com.custom.home.domain.usecase.SearchCitiesUseCase
@@ -63,7 +62,7 @@ class WeatherViewModelTest {
         windSpeedText = 0.0,
         iconUrl = "url"
     )
-    private val MOCK_CITIES_UI = listOf(CityUiModel(MOCK_CITY_NAME, "", 0.0, 0.0, ""))
+    private val MOCK_CITIES_UI = listOf(CityUiModel(MOCK_CITY_NAME, "", 0.0, 0.0))
 
     @Before
     fun setUp() {

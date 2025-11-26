@@ -1,5 +1,6 @@
 package com.custom.home.ui
 
+import com.custom.domain.common.AppError
 import com.custom.home.domain.model.CityUiModel
 
 sealed class SearchState {
@@ -9,5 +10,5 @@ sealed class SearchState {
 
     data class Results(val cities: List<CityUiModel>) : SearchState()
 
-    data class Error(val message: String) : SearchState()
+    data class Error(val error: AppError) : SearchState()
 }

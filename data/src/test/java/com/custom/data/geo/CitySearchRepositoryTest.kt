@@ -1,9 +1,9 @@
 package com.custom.data.geo
 
-import com.custom.core.model.CityModel
 import com.custom.data.dto.CityDto
 import com.custom.data.remote.GeoApi
 import com.custom.data.repository.CitySearchRepositoryImpl
+import com.custom.domain.model.CityModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals

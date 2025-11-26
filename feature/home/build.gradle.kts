@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation(project(":data"))
+    implementation(project(":core:ui"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)

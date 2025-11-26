@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.custom.common.util.toUserMessage
 import com.custom.home.R
 import com.custom.home.domain.model.CityUiModel
 import com.custom.home.ui.MINIMUM_CHARACTERS_TO_SEARCH
@@ -69,7 +70,10 @@ fun SearchOverlay(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     IconButton(onClick = onClose) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.close_search))
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            contentDescription = stringResource(R.string.close_search)
+                        )
                     }
 
                     OutlinedTextField(
@@ -88,7 +92,10 @@ fun SearchOverlay(
                             query = ""
                             onQueryChanged("")
                         }) {
-                            Icon(Icons.Default.Close, contentDescription = stringResource(R.string.clear_query))
+                            Icon(
+                                Icons.Default.Close,
+                                contentDescription = stringResource(R.string.clear_query)
+                            )
                         }
                     }
                 }
@@ -148,7 +155,7 @@ fun SearchOverlay(
 
                     is SearchState.Error -> {
                         Text(
-                            text = state.message,
+                            text = state.error.toUserMessage(),
                             color = MaterialTheme.colorScheme.error,
                             modifier = Modifier.padding(16.dp)
                         )

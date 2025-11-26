@@ -1,11 +1,12 @@
 package com.custom.home.usecase
 
-import com.custom.core.model.TemperatureModel
-import com.custom.core.model.WeatherModel
-import com.custom.core.repository.WeatherRepository
-import com.custom.core.util.AppError
-import com.custom.core.util.OperationResult
-import com.custom.home.domain.toUiModel
+import com.custom.domain.common.AppError
+import com.custom.domain.common.OperationResult
+import com.custom.domain.model.TemperatureModel
+import com.custom.domain.model.WeatherModel
+import com.custom.domain.repository.ErrorTranslator
+import com.custom.domain.repository.WeatherRepository
+import com.custom.home.domain.mapper.toUiModel
 import com.custom.home.domain.usecase.GetCurrentWeatherByCoordinateUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -18,6 +19,8 @@ import java.io.IOException
 class GetCurrentWeatherByCoordinateUseCaseTest {
 
     private val mockWeatherRepository: WeatherRepository = mockk()
+    private val mockErrorTranslator: ErrorTranslator = mockk()
+
     private lateinit var useCase: GetCurrentWeatherByCoordinateUseCase
 
     private val LAT = -34.6037
@@ -42,7 +45,7 @@ class GetCurrentWeatherByCoordinateUseCaseTest {
 
     @Before
     fun setUp() {
-        useCase = GetCurrentWeatherByCoordinateUseCase(mockWeatherRepository)
+        useCase = GetCurrentWeatherByCoordinateUseCase(mockWeatherRepository,mockErrorTranslator)
     }
 
     @Test

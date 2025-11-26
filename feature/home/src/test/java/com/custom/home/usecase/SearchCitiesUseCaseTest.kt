@@ -1,10 +1,11 @@
 package com.custom.home.usecase
 
-import com.custom.core.model.CityModel
-import com.custom.core.repository.CitySearchRepository
-import com.custom.core.util.OperationResult
+import com.custom.domain.common.OperationResult
+import com.custom.domain.model.CityModel
+import com.custom.domain.repository.CitySearchRepository
+import com.custom.domain.repository.ErrorTranslator
 import com.custom.home.domain.model.CityUiModel
-import com.custom.home.domain.toUiModel
+import com.custom.home.domain.mapper.toUiModel
 import com.custom.home.domain.usecase.SearchCitiesUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -17,6 +18,8 @@ import java.io.IOException
 class SearchCitiesUseCaseTest {
 
     private val mockCitySearchRepository: CitySearchRepository = mockk()
+    private val mockErrorTranslator: ErrorTranslator = mockk()
+
     private lateinit var useCase: SearchCitiesUseCase
 
     private val domainCityModel = CityModel(
@@ -33,7 +36,7 @@ class SearchCitiesUseCaseTest {
 
     @Before
     fun setUp() {
-        useCase = SearchCitiesUseCase(mockCitySearchRepository)
+        useCase = SearchCitiesUseCase(mockCitySearchRepository,mockErrorTranslator)
     }
 
     @Test

@@ -2,7 +2,6 @@ package com.custom.home.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.fonts.FontStyle
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
@@ -27,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.custom.common.util.toUserMessage
 import com.custom.home.R
 import com.custom.home.components.SearchOverlay
 import com.custom.home.components.WeatherContent
@@ -123,7 +123,7 @@ fun WeatherScreen(
                 }
 
                 is WeatherState.Error -> {
-                    ErrorScreen(message = state.message)
+                    ErrorScreen(message = state.error.toUserMessage())
                 }
 
                 WeatherState.Init -> Unit
