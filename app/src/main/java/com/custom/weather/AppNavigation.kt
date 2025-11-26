@@ -1,18 +1,16 @@
 package com.custom.weather
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.custom.common.components.LoadingScreen
 import com.custom.home.ui.WeatherScreen
 import com.custom.onboarding.ui.OnboardingScreen
 
@@ -53,9 +51,7 @@ fun AppNavigation(
             }
         }
     } else {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            CircularProgressIndicator(Modifier.wrapContentSize(Alignment.Center))
-        }
+        LoadingScreen(stringResource(R.string.loading_resources))
     }
 }
 

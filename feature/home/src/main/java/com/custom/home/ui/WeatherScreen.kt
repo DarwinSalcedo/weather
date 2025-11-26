@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.custom.common.components.LoadingScreen
 import com.custom.common.util.toUserMessage
 import com.custom.home.R
 import com.custom.home.components.SearchOverlay
@@ -76,7 +77,7 @@ fun WeatherScreen(
                     val isReadyForRefresh =
                         weatherState is WeatherState.Success || weatherState is WeatherState.Error
 
-                    if (isReadyForRefresh && weatherState !is WeatherState.LoadingWeather && weatherState !is WeatherState.LoadingLocation) {
+                    if (isReadyForRefresh) {
                         IconButton(onClick = viewModel::refreshWeather) {
                             Icon(
                                 Icons.Default.Place,

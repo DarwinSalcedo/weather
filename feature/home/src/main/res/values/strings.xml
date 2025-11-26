@@ -8,7 +8,7 @@
     <string name="refresh_local_weather">Refresh local weather</string>
     <string name="getting_location">Getting location</string>
     <string name="updating_weather">Updating weather</string>
-    <string name="city_forecast">City forecast</string>
+    <string name="city_forecast">City Forecast</string>
     <string name="error">Error</string>
     <string name="ups_unexpected_error">¡Ups unexpected error!</string>
     <string name="search_a_city">Search a city</string>
