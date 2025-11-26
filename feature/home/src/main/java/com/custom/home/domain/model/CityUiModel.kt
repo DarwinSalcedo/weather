@@ -6,5 +6,4 @@ data class CityUiModel(
     val country: String,
     val latitude: Double,
     val longitude: Double,
-    val coordinatesText: String,
 )

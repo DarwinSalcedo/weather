@@ -53,7 +53,8 @@ android {
 }
 
 dependencies {
-    api(project(":core"))
+    api(project(":core:domain"))
+    api(project(":core:di"))
 
     implementation(libs.hilt.android)
     implementation(libs.play.services.location)

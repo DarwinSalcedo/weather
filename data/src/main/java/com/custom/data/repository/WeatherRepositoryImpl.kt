@@ -1,9 +1,9 @@
 package com.custom.data.repository
 
-import com.custom.core.model.WeatherModel
-import com.custom.core.repository.WeatherRepository
 import com.custom.data.mapper.toDomainModel
 import com.custom.data.remote.WeatherApi
+import com.custom.domain.model.WeatherModel
+import com.custom.domain.repository.WeatherRepository
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(private val api: WeatherApi) : WeatherRepository {

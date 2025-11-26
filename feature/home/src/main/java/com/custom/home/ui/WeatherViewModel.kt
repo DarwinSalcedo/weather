@@ -2,10 +2,9 @@ package com.custom.home.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.custom.core.di.IoDispatcher
-import com.custom.core.repository.LocationRepository
-import com.custom.core.util.OperationResult
-import com.custom.core.util.mapAppErrorToUserMessage
+import com.custom.di.IoDispatcher
+import com.custom.domain.common.OperationResult
+import com.custom.domain.repository.LocationRepository
 import com.custom.home.domain.model.WeatherUiModel
 import com.custom.home.domain.usecase.GetCurrentWeatherByCoordinateUseCase
 import com.custom.home.domain.usecase.SearchCitiesUseCase
@@ -66,11 +65,7 @@ class WeatherViewModel @Inject constructor(
             _weatherState.update {
                 when (result) {
                     is OperationResult.Success -> WeatherState.Success(result.data)
-                    is OperationResult.Failure -> WeatherState.Error(
-                        message = mapAppErrorToUserMessage(
-                            result.error
-                        )
-                    )
+                    is OperationResult.Failure -> WeatherState.Error(result.error)
                 }
             }
         }
@@ -98,7 +93,7 @@ class WeatherViewModel @Inject constructor(
             _searchState.update {
                 when (result) {
                     is OperationResult.Success -> SearchState.Results(result.data)
-                    is OperationResult.Failure -> SearchState.Error(mapAppErrorToUserMessage(error = result.error))
+                    is OperationResult.Failure -> SearchState.Error(result.error)
                 }
             }
         }

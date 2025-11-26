@@ -1,9 +1,9 @@
 package com.custom.data.mapper
 
-import com.custom.core.model.TemperatureModel
-import com.custom.core.model.WeatherModel
 import com.custom.data.BuildConfig
 import com.custom.data.dto.WeatherDto
+import com.custom.domain.model.TemperatureModel
+import com.custom.domain.model.WeatherModel
 
 
 fun WeatherDto.toDomainModel(): WeatherModel {

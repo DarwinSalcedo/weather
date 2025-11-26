@@ -1,5 +1,6 @@
 package com.custom.home.ui
 
+import com.custom.domain.common.AppError
 import com.custom.home.domain.model.WeatherUiModel
 
 sealed class WeatherState {
@@ -13,5 +14,5 @@ sealed class WeatherState {
 
     data class Success(val weather: WeatherUiModel) : WeatherState()
 
-    data class Error(val message: String) : WeatherState()
+    data class Error(val error: AppError) : WeatherState()
 }

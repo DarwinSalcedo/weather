@@ -1,0 +1,9 @@
+<resources>
+    <string name="error_network">Network error, the server is not working</string>
+    <string name="error_not_found">Resource not found, check the url and try again</string>
+    <string name="error_invalid_data">The data is not valid, check the data and try again.</string>
+    <string name="error_location_disabled">The location service is disabled, enable it and try again.</string>
+    <string name="error_location_canceled">The location service has been canceled, enable it and try again.</string>
+    <string name="error_unknown">Unknown error: %1$s</string>
+    <string name="error_unknown_unavailable">Unknown error, check the logs</string>
+</resources>

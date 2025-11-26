@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.location.LocationManager
 import android.os.Looper
-import com.custom.core.model.LocationModel
-import com.custom.core.repository.LocationRepository
 import com.custom.data.mapper.toDomainModel
+import com.custom.domain.exception.LocationCanceledException
+import com.custom.domain.exception.LocationDisabledException
+import com.custom.domain.model.LocationModel
+import com.custom.domain.repository.LocationRepository
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -31,7 +33,7 @@ class LocationRepositoryImpl @Inject constructor(
         val isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
         if (!isGpsEnabled && !isNetworkEnabled) {
-            close(IllegalStateException("Location services are disabled."))
+            close(LocationDisabledException())
             return@callbackFlow
         }
 
@@ -55,7 +57,7 @@ class LocationRepositoryImpl @Inject constructor(
         ).addOnFailureListener { e ->
             close(e)
         }.addOnCanceledListener {
-            close(IllegalStateException("Location request has been canceled."))
+            close(LocationCanceledException())
         }
 
         awaitClose {
