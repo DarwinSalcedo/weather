@@ -52,10 +52,6 @@ class SearchCitiesUseCaseTest {
 
             Assert.assertEquals(1, actualUiList.size)
             Assert.assertEquals(expectedUiList.first().name, actualUiList.first().name)
-            Assert.assertEquals(
-                expectedUiList.first().coordinatesText,
-                actualUiList.first().coordinatesText
-            )
             Assert.assertTrue(actualUiList.first() is CityUiModel)
         }
 

@@ -24,12 +24,6 @@ fun CityModel.toUiModel(): CityUiModel {
         name = this.name,
         country = this.country,
         latitude = this.latitude,
-        longitude = this.longitude,
-        coordinatesText = "Lat: ${
-            String.format(
-                "%.2f",
-                this.latitude
-            )
-        }, Lon: ${String.format("%.2f", this.longitude)}",
+        longitude = this.longitude
     )
 }
