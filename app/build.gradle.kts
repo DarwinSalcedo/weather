@@ -44,14 +44,19 @@ android {
 }
 
 dependencies {
-
-    implementation(project(":feature:home"))
-    implementation(project(":feature:onboarding"))
     implementation(project(":core:domain"))
     implementation(project(":core:ui"))
 
+    implementation(project(":feature:home"))
+    implementation(project(":feature:onboarding"))
+    implementation(project(":feature:language"))
+
+
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.appcompat:appcompat-resources:1.6.1")
 
     implementation(libs.hilt.android)
+    implementation(libs.androidx.appcompat)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.common)
     implementation(libs.hilt.navigation.compose)

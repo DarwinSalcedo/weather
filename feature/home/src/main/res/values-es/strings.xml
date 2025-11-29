@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Inicio</string>
+    <string name="allow_location">Permitir ubicación</string>
+    <string name="refresh_local_weather">Actualizar clima local</string>
+    <string name="getting_location">Obteniendo ubicación</string>
+    <string name="updating_weather">Actualizando clima</string>
+    <string name="city_forecast">Pronóstico de la ciudad</string>
+    <string name="error">Error</string>
+    <string name="ups_unexpected_error">¡Ups, error inesperado!</string>
+    <string name="search_a_city">Buscar una ciudad</string>
+    <string name="search_other_city">Buscar otra ciudad</string>
+    <string name="humidity_title">Humedad</string>
+    <string name="wind">Viento</string>
+    <string name="temperature">Temperatura</string>
+    <string name="not_results_for">No hay resultados para \'%1$s\'.</string>
+    <string name="write_at_least_characters_to_search">Escribe al menos %1$d caracteres para buscar.</string>
+    <string name="name_of_the_city">Nombre de la ciudad</string>
+    <string name="clear_query">Borrar búsqueda</string>
+    <string name="close_search">Cerrar búsqueda</string>
+    <string name="search_a_city_to_get_started">Busca una ciudad para empezar.</string>
+    <string name="welcome">Bienvenido</string>
+    <string name="continue_without_location">Continuar sin ubicación</string>
+    <string name="to_get_the_local_weather_we_need_to_access_your_location">Para obtener el clima local, necesitamos acceder a tu ubicación.</string>
+    <string name="location_permission_is_required">Se requiere permiso de ubicación</string>
+    <string name="location_authorize">Autorizar ubicación</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="end">FINALIZAR</string>
+    <string name="next">SIGUIENTE</string>
+
+    <string name="onboarding_icon_info_desc">Icono de información</string>
+    <string name="onboarding_icon_search_desc">Icono de búsqueda</string>
+    <string name="onboarding_title_1">Bienvenido a la App del Clima</string>
+    <string name="onboarding_description_1">Te guiaremos a través de las funciones principales. ¡Prepárate para conocer el pronóstico!</string>
+    <string name="onboarding_title_2">Ubicación o Búsqueda Manual</string>
+    <string name="onboarding_description_2">Puedes otorgarnos permiso para ver el clima local o buscar tu ciudad favorita en cualquier momento.</string>
+
+</resources>

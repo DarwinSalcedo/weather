@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="selected">Selected</string>
+    <string name="select_a_language">Select a Language</string>
+    <string name="next">CONTINUE</string>
+    <string name="select_the_language_of_the_app">Select the language of the app</string>
+</resources>

@@ -1,6 +1,5 @@
 package com.custom.data.di
 
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import com.custom.data.BuildConfig
@@ -9,12 +8,14 @@ import com.custom.data.remote.GeoApi
 import com.custom.data.remote.WeatherApi
 import com.custom.data.repository.CitySearchRepositoryImpl
 import com.custom.data.repository.ErrorTranslatorImpl
+import com.custom.data.repository.LanguageRepositoryImpl
 import com.custom.data.repository.LocationRepositoryImpl
 import com.custom.data.repository.OnboardingRepositoryImpl
 import com.custom.data.repository.WeatherRepositoryImpl
 import com.custom.di.IoDispatcher
 import com.custom.domain.repository.CitySearchRepository
 import com.custom.domain.repository.ErrorTranslator
+import com.custom.domain.repository.LanguageRepository
 import com.custom.domain.repository.LocationRepository
 import com.custom.domain.repository.OnboardingRepository
 import com.custom.domain.repository.WeatherRepository
@@ -91,17 +92,17 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideFusedLocationProviderClient(app: Application): FusedLocationProviderClient {
-        return LocationServices.getFusedLocationProviderClient(app)
+    fun provideFusedLocationProviderClient(@ApplicationContext context: Context): FusedLocationProviderClient {
+        return LocationServices.getFusedLocationProviderClient(context)
     }
 
     @Provides
     @Singleton
     fun provideLocationRepository(
-        app: Application,
+        @ApplicationContext context: Context,
         fusedLocationProviderClient: FusedLocationProviderClient
     ): LocationRepository {
-        return LocationRepositoryImpl(app, fusedLocationProviderClient)
+        return LocationRepositoryImpl(context, fusedLocationProviderClient)
     }
 
     @Provides
@@ -120,5 +121,14 @@ object DataModule {
         sharedPreferences: SharedPreferences,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): OnboardingRepository = OnboardingRepositoryImpl(sharedPreferences, dispatcher)
+
+
+    @Provides
+    @Singleton
+    fun provideLanguageRepository(
+        @ApplicationContext context: Context,
+        sharedPreferences: SharedPreferences,
+        @IoDispatcher dispatcher: CoroutineDispatcher
+    ): LanguageRepository = LanguageRepositoryImpl(context, sharedPreferences, dispatcher)
 
 }

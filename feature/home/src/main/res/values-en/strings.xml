@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">home</string>
     <string name="allow_location">Allow location</string>
-    <string name="current_temp" translatable="false">%1$d °C</string>
-    <string name="humidity" translatable="false">%1$d %%</string>
-    <string name="min_max_temp" translatable="false">Mín: %1$d °C / Máx: %2$d °C</string>
-    <string name="wind_speed" translatable="false">%.1f m/s</string>
+    <string name="current_temp">%1$d °C</string>
+    <string name="humidity">%1$d %%</string>
+    <string name="min_max_temp">Mín: %1$d °C / Máx: %2$d °C</string>
+    <string name="wind_speed">%.1f m/s</string>
     <string name="refresh_local_weather">Refresh local weather</string>
     <string name="getting_location">Getting location</string>
     <string name="updating_weather">Updating weather</string>
@@ -16,7 +16,6 @@
     <string name="humidity_title">Humidity</string>
     <string name="wind">Wind</string>
     <string name="temperature">Temperature</string>
-    <string name="coordinates_lat_lon" translatable="false">Lat: %1$.2f, Lon: %2$.2f</string>
     <string name="not_results_for">Not results for \'%1$s\'.</string>
     <string name="write_at_least_characters_to_search">Write at least %1$d characters to search.</string>
     <string name="name_of_the_city">Name of the city</string>
